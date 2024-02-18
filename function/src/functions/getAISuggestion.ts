@@ -1,9 +1,12 @@
+// https://streaming-clone-uddip.azurewebsites.net/api/getaisuggestion
+
 import {
   app,
   HttpRequest,
   HttpResponseInit,
   InvocationContext,
 } from "@azure/functions";
+
 import OpenAI from "openai";
 
 const openai = new OpenAI({
@@ -32,7 +35,15 @@ export async function getAISuggestion(
     model: "gpt-3.5-turbo",
   });
 
-  return { body: completion.choices[0].message.content || "No Suggestion" };
+  console.log(completion.choices[0]);
+
+  const name = request.query.get("name") || (await request.text()) || "world";
+
+  if (!completion) {
+    return { body: `Hello, ${name}!` };
+  }
+
+  return { body: completion.choices[0].message.content || "No suggestion" };
 }
 
 app.http("getAISuggestion", {

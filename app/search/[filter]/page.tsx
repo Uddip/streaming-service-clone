@@ -1,3 +1,4 @@
+import AISuggestion from "@/components/AISuggestion";
 import MoviesCarousel from "@/components/MoviesCarousel";
 import { getPopularMovies, getSearchedMovies } from "@/lib/getMovies";
 import { notFound } from "next/navigation";
@@ -25,6 +26,7 @@ async function SearchPage({ params: { filter } }: Props) {
         </h1>
 
         {/* AI Suggestion */}
+        <AISuggestion userInput={decodedFilter} />
 
         <MoviesCarousel title="Movies" movies={movies} isVertical={true} />
         <MoviesCarousel
